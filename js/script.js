@@ -77,9 +77,8 @@ $(function(){
     $('.list-item').last().click(function(){
       $('.show-contact h3').text("");
       $('.show-contact h4').text("");
-          debugger;
       removeActive("li.list-item");
-      $('.list-item').last().addClass("active");
+      $(this).addClass("active");
       $('.show-contact').show();
       $('.show-contact h3').text(myContact.fullName());
       $('.show-addresses').text("");
