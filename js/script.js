@@ -60,6 +60,7 @@ $(function(){
     var firstName = $("#first-name").val();
     var lastName = $("#last-name").val();
     var myContact = new Contact(firstName, lastName);
+    var inputFlag = false;
 
     $(".address").each(function(){
       var inputStreet = $(this).find("input.new-street").val();
@@ -68,26 +69,33 @@ $(function(){
       var inputPostal = $(this).find("input.new-postal").val();
       var inputTags = $(this).find("input.new-tags").val();
       var newAddr = new Address(inputStreet, inputCity, inputState, inputPostal, inputTags);
-      myContact.addresses.push(newAddr);
+      if(inputCity && inputStreet){
+        myContact.addresses.push(newAddr);
+        inputFlag = true;
+      }
       console.log(JSON.stringify(newAddr));
     });
     // remove the current active item
-    removeActive("li.list-item");
-    $('ul#contact-list').append('<li class="list-item active"><a href="#">' + myContact.fullName() + '</a></li>');
-
-    $('.list-item').last().click(function(){
-      $('.show-contact h3').text("");
-      $('.show-contact h4').text("");
+    if(inputFlag){
       removeActive("li.list-item");
-      $(this).addClass("active");
-      $('.show-contact').show();
-      $('.show-contact h3').text(myContact.fullName());
-      $('.show-addresses').text("");
-      myContact.addresses.forEach(function(address){
-        $('ul.show-addresses').append('<li>' + address.fullAddress() + "</li>");
-      });
-    })
-    $('form#addcontact')[0].reset();
+      $('ul#contact-list').append('<li class="list-item active"><a href="#">' + myContact.fullName() + '</a></li>');
+      $('.show-contact').hide();
+      $('.list-item').last().click(function(){
+        $('.show-contact h3').text("");
+        $('.show-contact h4').text("");
+        removeActive("li.list-item");
+        $(this).addClass("active");
+        $('.show-contact').show();
+        $('.show-contact h3').text(myContact.fullName());
+        $('.show-addresses').text("");
+        myContact.addresses.forEach(function(address){
+          $('ul.show-addresses').append('<li>' + address.fullAddress() + "</li>");
+        });
+      })
+      $('form#addcontact')[0].reset();
+    } else {
+      alert("street and city must not be empty");
+    }
      // console.log(JSON.stringify(myContact))
   });
 
