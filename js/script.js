@@ -16,7 +16,7 @@ function Address(street, city, state, postal, tag = ""){
   this.tag = tag;
 }
 Address.prototype.fullAddress = function(){
-  return this.street + ", " + this.city + ",  " + this.state + "  " + this.postal;
+  return this.tag + ": " + this.street + ", " + this.city + ",  " + this.state + "  " + this.postal;
 }
 var removeActive = function(selector){
   if($(selector + '.active')){
@@ -69,6 +69,7 @@ $(function(){
       var inputTags = $(this).find("input.new-tags").val();
       var newAddr = new Address(inputStreet, inputCity, inputState, inputPostal, inputTags);
       myContact.addresses.push(newAddr);
+      console.log(JSON.stringify(newAddr));
     });
     // remove the current active item
     removeActive("li.list-item");
